@@ -23,10 +23,9 @@ input_operation = st.sidebar.selectbox(label="What would you like to do?", optio
 
 if input_operation == "Search News":
     st.subheader("This app gives you news articles related to the person you want to see. Main functions of this app are:")
-    st.write("1. Display all the news headlines around the world.")
+    st.write("1. Display all the news headlines around the world with link and source.")
     st.write("2. Display the Top 10 news articles.")
-    st.write("2. Display links of news articles.")
-    st.write("3. Give Sentiment score of the extracted news articles.")
+    st.write("3. Give Sentiment score of the extracted news.")
     input_sub_operation = st.selectbox("Select any one of the activity", ["See the headlines", "Display Top 10 News headlines", "Predict Sentiment"])
 
     parameter_first_name = st.text_input("Enter First Name of the person you want to search")
