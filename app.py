@@ -27,7 +27,7 @@ if input_operation == "Search News":
     st.subheader("This app gives you news articles related to the person you want to see. Main functions of this app are:")
     st.write("1. Displays all the news headlines around the world with link and source.")
     st.write("2. Displays summary of extracted news articles.")
-    st.write("3. Predicts Sentiment score of the extracted news article.")
+    st.write("3. Predicts Sentiment of the extracted news article.")
     input_sub_operation = st.selectbox("Select any one of the activity", ["See the headlines", "Display news summary", "Predict Sentiment"])
 
     parameter_first_name = st.text_input("Enter First Name of the person you want to search")
