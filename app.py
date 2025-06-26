@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 from PIL import Image
-from newspaper import Article
+from readability import Document  # ✅ Replacing newspaper3k
 
 # Set layout to wide
 st.set_page_config(layout="wide")
@@ -61,13 +61,14 @@ if input_operation == "Search News":
 
         elif input_sub_operation == "Display news summary":
             st.success("Fetching news summary")
+
             summaries = []
             for link in urls_list:
                 try:
-                    article = Article(link)
-                    article.download()
-                    article.parse()
-                    summaries.append(article.text)
+                    article_html = requests.get(link, timeout=10).text
+                    doc = Document(article_html)
+                    text = BeautifulSoup(doc.summary(), 'lxml').get_text()
+                    summaries.append(text)
                 except:
                     summaries.append("No Text")
 
@@ -79,19 +80,20 @@ if input_operation == "Search News":
                 text = re.sub('\n', '', text)
                 return text
 
-            summaries_clean = pd.Series(summaries[1:51]).apply(cleantext)
+            summaries_clean = pd.Series(summaries).apply(cleantext)
             summary_output = pd.concat([headlines_df, summaries_clean.rename("Article"), links_df], axis=1)
             st.write(summary_output.to_html(escape=False, index=False), unsafe_allow_html=True)
 
         else:
             st.success("Predicting Sentiment of articles")
+
             summaries = []
             for link in urls_list:
                 try:
-                    article = Article(link)
-                    article.download()
-                    article.parse()
-                    summaries.append(article.text)
+                    article_html = requests.get(link, timeout=10).text
+                    doc = Document(article_html)
+                    text = BeautifulSoup(doc.summary(), 'lxml').get_text()
+                    summaries.append(text)
                 except:
                     summaries.append("No Text")
 
@@ -113,7 +115,7 @@ if input_operation == "Search News":
                 else:
                     return 'Positive'
 
-            cleaned_articles = pd.Series(summaries[1:51]).apply(cleantext)
+            cleaned_articles = pd.Series(summaries).apply(cleantext)
             sentiment_scores = cleaned_articles.apply(getpolarity)
             sentiment_labels = sentiment_scores.apply(getanalysis)
 
