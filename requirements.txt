@@ -5,4 +5,4 @@ beautifulsoup4
 requests
 lxml
 Pillow
-newspaper3k
+readability-lxml
